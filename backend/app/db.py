@@ -6,11 +6,9 @@ from sqlalchemy.orm import sessionmaker, DeclarativeBase, Session
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-if not DATABASE_URL:
-    raise ValueError("DATABASE_URL not set")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./database.db")
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(engine, autocommit=False, autoflush=False)
 
 class Base(DeclarativeBase):
